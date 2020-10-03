@@ -12,14 +12,20 @@ export class Onboard {
 
   async get_balance() {
     // Fetch application ETH balance and address for gas payments
-    const { balance, relayAddress } = await this.onboardmoney.balance();
+    const { balance, relayAddress } = await this.onboardmoney.balance()
+    .catch((error) => {
+      console.log(error);
+    });
     console.log(balance);
     return balance;
   }
 
   async createUser() {
-    const { userAddress } = await this.onboardmoney.createUser();
+    const { userAddress } = await this.onboardmoney.createUser().catch((error) => {
+      console.log(error);
+    });
     console.log(userAddress);
+    return userAddress;
   }
 
   async get_policy() {
