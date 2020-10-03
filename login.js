@@ -53,4 +53,21 @@ app.get('/home', function(request, response) {
 	response.end();
 });
 
+app.get('/create_user', function(request, response) {
+  response.sendFile(path.join(__dirname + '/create_user.html'))
+});
+
+app.post('/create_user', function(request, response) {
+  var username = request.body.username;
+  var password = request.body.password;
+  var todo = [username, password, 'testcom'];
+
+  if(username && password) {
+    connection.query('INSERT INTO accounts (username, password, email) VALUES (?, ?, ?)', todo, (err, res, fields)=> {
+      if (err) return console.error(err.message);
+      else response.redirect('/');
+    })
+  }   
+});
+
 app.listen(3000);
