@@ -1,3 +1,5 @@
+<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+<meta content="utf-8" http-equiv="encoding">
 <!DOCTYPE html>
 <html>
 	<head>
@@ -5,7 +7,7 @@
 		<title>Create trx</title>
 		<style>
 		.login-form {
-			width: 300px;
+			width: 320px;
 			margin: 0 auto;
 			font-family: Tahoma, Geneva, sans-serif;
 		}
@@ -15,7 +17,7 @@
 			font-size: 24px;
 			padding: 20px 0 20px 0;
 		}
-		.login-form input[type="password"],
+		.login-form input[type="number"],
 		.login-form input[type="text"] {
 			width: 100%;
 			padding: 15px;
@@ -40,8 +42,8 @@
 			<h1>Create transaction</h1>
 			<form action="create_user" method="POST">
 				<input type="text" name="destination_address" placeholder="Destination address" required>
-				<input type="password" name="trnasaction_amount" placeholder="Amount" required>
-				<input class="btn" type="submit">
+				<input type="number" min="0" step=".01" name="trnasaction_amount" placeholder="Amount" required>
+				<input class="btn" type="submit" value='Send'>
       </form>
 	</body>
 </html>

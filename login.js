@@ -24,7 +24,8 @@ app.use(bodyParser.urlencoded({extended : true}));
 app.use(bodyParser.json());
 
 app.get('/', function(request, response) {
-	response.sendFile(path.join(__dirname + '/login.html'));
+  response.sendFile(path.join(__dirname + '/login.html'));
+  // response.end();
 });
 
 app.post('/auth', function(request, response) {
@@ -35,11 +36,11 @@ app.post('/auth', function(request, response) {
 			if (results.length > 0) {
 				request.session.loggedin = true;
 				request.session.username = username;
-				response.redirect('/home');
+        response.redirect('/home');
+
 			} else {
 				response.send('Incorrect Username and/or Password!');
 			}			
-			response.end();
 		});
 	} else {
 		response.send('Please enter Username and Password!');
@@ -49,15 +50,14 @@ app.post('/auth', function(request, response) {
 
 app.get('/home', async(request, response)=> {
 	if (request.session.loggedin) {
-    let onboard = new Onboard(apiKey);
-    let balance = await onboard.get_balance();
+    // let onboard = new Onboard(apiKey);
+    // let balance = await onboard.get_balance();
     response.sendFile(path.join(__dirname + '/home.html'))
     
 		// response.send(`your balance if ${balance}`);
 	} else {
-    response.send(`ERROR`);
+    console.log(`ERROR`);
 	}
-	response.end();
 });
 
 app.get('/create_user', function(request, response) {
