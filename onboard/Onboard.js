@@ -33,20 +33,19 @@ export class Onboard {
     console.log(policy);
   }
 
-  async createTrx() {
-    const userAddress = '0xdCD3a7aEf5994b731Cc90395894fD4475dD6AdFd'
+  async createTrx(user_address, destination_address, value) {
     const batch = {
       txs: [
         {
-          from: userAddress,
-          to: '0x5b2554112Ce698B023CC7fF4EB27eAd0e3fad019',
-          value: 5000000000000000,
-          gasLimit: '100000',
+          from: user_address,
+          to: destination_address,
+          value: value,
         },
       ],
     }
     const txReceipt = await this.onboardmoney.sendBatch(batch);
-    console.log(userAddress);
+    console.log(txReceipt);
+    return txReceipt;
   }
   async evaluateBatch() {
     const userAddress = '0xdCD3a7aEf5994b731Cc90395894fD4475dD6AdFd'
