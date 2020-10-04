@@ -86,8 +86,9 @@ app.post('/create_transaction', async (req, res, next) => {
 
   let onboard = new Onboard();
   let txReceipt = await onboard.create_transaction(origin_addres, destination_address, amount)
-    .catch((err) => { next(err)});
-  // console.log(txReceipt)
+    .catch((err) => { next(err)})
+  console.log('transaction created')
+  res.end('{"success" : "Updated Successfully", "status" : 200}');
 })
 
 app.listen(3000);

@@ -43,7 +43,7 @@
   <!-- CSS only -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
     integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-</head>
+  <link href="https://unpkg.com/pnotify@4.0.0/src/PNotifyBrightTheme.css" rel="stylesheet" type="text/css">
 
 <body>
   <div class="login-form">
@@ -53,7 +53,8 @@
       <input type="number" min="0" step=".01" name="trnasaction_amount" placeholder="Amount" required>
 
       <button class="btn_submit">
-        <span id="btn_submit_spinner" class="spinner-grow spinner-grow-sm" role="status" style="width: 24px; height: 24px;"></span>
+        <span id="btn_submit_spinner" class="spinner-grow spinner-grow-sm" role="status"
+          style="width: 24px; height: 24px;"></span>
         <span id="btn_submit_text">Send</span>
       </button>
     </form>
@@ -65,10 +66,11 @@
   integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
   integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/pnotify@4.0.0/dist/umd/PNotify.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/pnotify@4.0.0/dist/umd/PNotifyButtons.js"></script>
 <script>
-
+  // defaultModules.set(PNotifyMobile, {});
   $('#btn_submit_spinner').hide();
-
 
   $("#create_transaction_form").submit(function (e) {
 
@@ -76,16 +78,22 @@
 
     var form = $(this);
     var url = form.attr('action');
-    
+
     $.ajax({
       type: "POST",
       url: url,
       data: form.serialize(), // serializes the form's elements.
       success: function (dajqXHR, textStatus, errorThrownta) {
-        alert(data); // show response from the php script.
+        PNotify.success({
+          title: 'Success!',
+          text: 'Transaction created.'
+        });
       },
       error: function (jqXHR, textStatus, errorThrown) {
-        alert('eerrroor')
+        PNotify.error({
+          title: 'Transaction fail',
+          text: 'Sorry but we could process your transaction, please try again later.'
+        });
       },
       beforeSend: function () {
         $('#btn_submit_text').hide();

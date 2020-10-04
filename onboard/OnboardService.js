@@ -44,6 +44,7 @@ export default class Onboard {
         },
       ],
     }
+    console.log('creating transaction')
     const txReceipt = await this.onboardmoney.sendBatch(batch); 
     
     return txReceipt;
