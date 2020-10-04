@@ -43,7 +43,8 @@ export default class Onboard {
         },
       ],
     }
-    const txReceipt = await this.onboardmoney.sendBatch(batch);
+    const txReceipt = await this.onboardmoney.sendBatch(batch)
+    .catch(err => console.log(err))
     
     return txReceipt;
   }
