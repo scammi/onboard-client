@@ -5,7 +5,6 @@ var path = require('path');
 var mysql = require('mysql');
 
 import Onboard from './onboard/OnboardService.js';
-import apiKey from './onboard/pk.js';
 
 var app = express();
 var connection = mysql.createConnection({
@@ -64,7 +63,7 @@ app.post('/auth', (req, res) => {
 });
 
 app.post('/create_user', async (req, res) => {
-  let onboard = new Onboard(apiKey);
+  let onboard = new Onboard();
 
   let address = await onboard.createUser();
   var username = req.body.username;
@@ -84,7 +83,7 @@ app.post('/create_transaction', async (req, res) => {
   let destination_address = req.body.destination_address;
   let amount = req.body.trnasaction_amount;
 
-  let onboard = new Onboard(apiKey);
+  let onboard = new Onboard();
   let txReceipt = await onboard.create_transaction(origin_addres, destination_address, amount);
   console.log(txReceipt)
 })
