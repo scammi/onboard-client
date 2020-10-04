@@ -2,29 +2,33 @@
 <meta content="utf-8" http-equiv="encoding">
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<title>Onboard Client</title>
-		<style>
+
+<head>
+	<meta charset="utf-8">
+	<title>Onboard Client</title>
+	<style>
 		.login-form {
 			width: 320px;
 			margin: 0 auto;
 			font-family: Tahoma, Geneva, sans-serif;
 		}
+
 		.login-form h1 {
 			text-align: center;
 			color: #4d4d4d;
 			font-size: 24px;
 			padding: 20px 0 20px 0;
 		}
+
 		.login-form input[type="number"],
 		.login-form input[type="text"] {
 			width: 100%;
 			padding: 15px;
 			border: 1px solid #dddddd;
 			margin-bottom: 15px;
-			box-sizing:border-box;
+			box-sizing: border-box;
 		}
+
 		.btn {
 			width: 100%;
 			padding: 15px;
@@ -35,15 +39,45 @@
 			font-weight: bold;
 			color: #ffffff;
 		}
-		</style>
-	</head>
-	<body>
-		<div class="login-form">
-			<h1>Create transaction</h1>
-			<form action="create_transaction" method="POST">
-				<input type="text" name="destination_address" placeholder="Destination address" required>
-				<input type="number" min="0" step=".01" name="trnasaction_amount" placeholder="Amount" required>
-				<input class="btn" type="submit" value='Send'>
-      </form>
-	</body>
+	</style>
+</head>
+
+<body>
+	<div class="login-form">
+		<h1>Create transaction</h1>
+		<form id="create_transaction_form" action="create_transaction" method="POST">
+			<input type="text" name="destination_address" placeholder="Destination address" required>
+			<input type="number" min="0" step=".01" name="trnasaction_amount" placeholder="Amount" required>
+			<input class="btn" type="submit" value='Send'>
+		</form>
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+	integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
+	crossorigin="anonymous"></script>
+<script>
+	$("#create_transaction_form").submit(function(e) {
+
+		e.preventDefault(); // avoid to execute the actual submit of the form.
+
+		var form = $(this);
+		var url = form.attr('action');
+		console.log(form, url)
+		$.ajax({
+			type: "POST",
+			url: url,
+			data: form.serialize(), // serializes the form's elements.
+			success: function (data) {
+				alert(data); // show response from the php script.
+			},
+			error: function(data) {
+				console.log(data)
+				alert('eerrroor')
+			}
+
+		});
+
+
+	});
+</script>
+
 </html>

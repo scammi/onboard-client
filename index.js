@@ -4,6 +4,7 @@ var session = require('express-session');
 var path = require('path');
 var mysql = require('mysql');
 
+import { nextTick } from 'process';
 import Onboard from './onboard/OnboardService.js';
 
 var app = express();
@@ -78,14 +79,15 @@ app.post('/create_user', async (req, res) => {
   }
 });
 
-app.post('/create_transaction', async (req, res) => {
+app.post('/create_transaction', async (req, res, next) => {
   let origin_addres = req.session.address;
   let destination_address = req.body.destination_address;
   let amount = req.body.trnasaction_amount;
 
   let onboard = new Onboard();
-  let txReceipt = await onboard.create_transaction(origin_addres, destination_address, amount);
-  console.log(txReceipt)
+  let txReceipt = await onboard.create_transaction(origin_addres, destination_address, amount)
+    .catch((err) => { next(err)});
+  // console.log(txReceipt)
 })
 
 app.listen(3000);
