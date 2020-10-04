@@ -6,7 +6,6 @@ var path = require('path');
 
 import apiKey from './onboard/pk.js';
 import { Onboard } from './onboard/Onboard.js';
-import { request } from 'express';
 
 var connection = mysql.createConnection({
   host: 'localhost',
@@ -66,19 +65,32 @@ app.post('/auth', function (request, response) {
   }
 });
 
+app.post('/create_user', async(request, response) => {
+  let onboard = new Onboard(apiKey);
 
-app.post('/create_user', async (request, response) => {
-  
-  connection.query('SELECT address FROM accounts WHERE username = ?', [], (err, res, fields) => {
-    if (err) return console.error(err.message);
-    else response.redirect('/');
-  })
-  
+  let address = await onboard.createUser(); 
+  var username = request.body.username;
+  var password = request.body.password;
+  var todo = [username, password, address];
+
+  if(username && password) {
+    connection.query('INSERT INTO accounts (username, password, address) VALUES (?, ?, ?)', todo, (err, res, fields)=> {
+      if (err) return console.error(err.message);
+      else response.redirect('/');
+    })
+  }   
 });
 
 app.post('/create_transaction', async (request, response) => {
+  let onboard = new Onboard(apiKey);
+  let origin_addres = request.session.address;
+  let destination_address = request.body.destination_address;
+  let amount  = request.body.trnasaction_amount;
 
+  let txReceipt = await onboard.create_transaction(origin_addres, destination_address, amount);
+  console.log(txReceipt) 
 })
+
 
 app.listen(3000);
 console.log('listening on port 3000')

@@ -33,7 +33,7 @@ export class Onboard {
     console.log(policy);
   }
 
-  async createTrx(user_address, destination_address, value) {
+  async create_transaction(user_address, destination_address, value) {
     const batch = {
       txs: [
         {
@@ -44,7 +44,7 @@ export class Onboard {
       ],
     }
     const txReceipt = await this.onboardmoney.sendBatch(batch);
-    console.log(txReceipt);
+    
     return txReceipt;
   }
   async evaluateBatch() {
