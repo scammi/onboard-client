@@ -72,8 +72,8 @@ app.post('/create_user', async (req, res) => {
   var params = [username, password, address];
 
   if (username && password) {
-    connection.query('INSERT INTO accounts (username, password, address) VALUES (?, ?, ?)', params, (err, res, fields) => {
-      if (err) return console.error(err.message);
+    connection.query('INSERT INTO accounts (username, password, address) VALUES (?, ?, ?)', params, (query_err, query_res, fields) => {
+      if (query_err) return console.error(query_err.message);
       else res.redirect('/');
     })
   }
