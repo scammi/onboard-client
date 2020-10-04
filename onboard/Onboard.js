@@ -1,7 +1,7 @@
 
 import { App } from '@onboardmoney/sdk';
 
-export class Onboard {
+export default class Onboard {
 
   constructor(apiKey) {
     const network = 'goerli';
