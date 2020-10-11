@@ -47,10 +47,12 @@
 
 <body>
   <div class="login-form">
-    <h1>Create transaction</h1>
+    <h2>Create transaction</h1>
+    <p><%= address %></p>
+    <p><%= eth_balance %></p>
     <form id="create_transaction_form" action="create_transaction" method="POST">
       <input type="text" name="destination_address" placeholder="Destination address" required>
-      <input type="number" min="0" step=".01" name="trnasaction_amount" placeholder="Amount" required>
+      <input type="number" min="0" step=".01" name="transaction_amount" placeholder="Amount" required>
 
       <button class="btn_submit">
         <span id="btn_submit_spinner" class="spinner-grow spinner-grow-sm" role="status"
@@ -69,7 +71,11 @@
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/pnotify@4.0.0/dist/umd/PNotify.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/pnotify@4.0.0/dist/umd/PNotifyButtons.js"></script>
 <script>
-  // defaultModules.set(PNotifyMobile, {});
+
+  $(document).ready(function () {
+    
+  });
+
   $('#btn_submit_spinner').hide();
 
   $("#create_transaction_form").submit(function (e) {
@@ -102,7 +108,6 @@
       complete: function () {
         $('#btn_submit_spinner').hide();
         $('#btn_submit_text').show();
-
       },
     });
 

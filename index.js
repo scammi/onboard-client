@@ -3,9 +3,11 @@ var express = require('express');
 var session = require('express-session');
 var path = require('path');
 var mysql = require('mysql');
+var axios = require('axios')
 
-import { nextTick } from 'process';
-import Onboard from './onboard/OnboardService.js';
+import Onboard from './services/OnboardService.js';
+import etherscan_apiKey from './services/pk.js'
+// import Etherscan from './services/EtherscanService.js'
 
 var app = express();
 var connection = mysql.createConnection({
@@ -20,20 +22,42 @@ app.use(session({
   resave: true,
   saveUninitialized: true
 }));
+
+app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 /* 
   ROUTING
 */
-
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname + '/views/login.html'));
 });
 
 app.get('/user_home', async (req, res) => {
   let user_authenticated = req.session.loggedin;
-  if (user_authenticated) res.sendFile(path.join(__dirname + '/views/user_home.html'))
+  if (user_authenticated) {
+
+    let address = req.session.address;
+    axios({
+      method: 'get',
+      url: 'https://api-goerli.etherscan.io/api',
+      params: {
+        module: 'account',
+        action: 'balance',
+        address: address,
+        tag: 'latest',
+        apikey: 'DRYVU1NAAUFZNK9KEEAXVUWVF9RQGUMEZR'
+      }
+    }).then((response) => { 
+      console.log(response)
+      res.render('user_home', {
+        address: address,
+        eht_balance: response.data.result
+        // token_balance:
+      });
+    })
+  }
 });
 
 app.get('/create_user', (req, res) => {
@@ -82,11 +106,11 @@ app.post('/create_user', async (req, res) => {
 app.post('/create_transaction', async (req, res, next) => {
   let origin_addres = req.session.address;
   let destination_address = req.body.destination_address;
-  let amount = req.body.trnasaction_amount;
+  let amount = req.body.transaction_amount;
 
   let onboard = new Onboard();
   let txReceipt = await onboard.create_transaction(origin_addres, destination_address, amount)
-    .catch((err) => { next(err)})
+    .catch((err) => { next(err) })
   console.log('transaction created')
   res.end('{"success" : "Updated Successfully", "status" : 200}');
 })
