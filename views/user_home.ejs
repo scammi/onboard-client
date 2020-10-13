@@ -50,6 +50,8 @@
     <h2>Create transaction</h1>
     <p><%= address %></p>
     <p><%= eth_balance %></p>
+    <p><%= token_balance %></p>
+
     <form id="create_transaction_form" action="create_transaction" method="POST">
       <input type="text" name="destination_address" placeholder="Destination address" required>
       <input type="number" min="0" step=".01" name="transaction_amount" placeholder="Amount" required>

@@ -1,20 +1,52 @@
-import etherscan_apiKey from './pk.js';
-import { response } from 'express';
+// import { etherscan_apikey } from './pk.js';
+
 var axios = require('axios');
 
-export default class Etherscan {
+class Etherscan {
 
-  static get_eth_balance(address) {
-    axios({
-      method: 'post',
-      url: 'https://api-goerli.etherscan.io/api',
-      data: {
-        module: 'account',
-        action: 'balance',
-        address: address,
-        tag: 'latest',
-        apikey: etherscan_apiKey
-      }
-    }).then((response) => {return response})
+
+  static async get_balance(req, res) {
+    if (req.session.loggedin) {
+      let address = req.session.address;
+
+      let token_balance = await axios({
+        method: 'get',
+        url: 'https://api-goerli.etherscan.io/api',
+        params: {
+          module: 'account',
+          action: 'tokentx',
+          address: address,
+          tag: 'latest',
+          apikey: 'DRYVU1NAAUFZNK9KEEAXVUWVF9RQGUMEZR'
+        }
+      });
+
+      let get_eth_balance = await axios({
+        method: 'get',
+        url: 'https://api-goerli.etherscan.io/api',
+        params: {
+          module: 'account',
+          action: 'balance',
+          address: address,
+          tag: 'latest',
+          apikey: 'DRYVU1NAAUFZNK9KEEAXVUWVF9RQGUMEZR'
+        }
+      });
+
+      Promise.all([token_balance, get_eth_balance])
+        .then(function (results) {
+          const token = results[0].data.result[0].value;
+          const eth = results[1].data.result;
+
+          console.log("token:", token, eth);
+          res.render('user_home', {
+            address: address,
+            eth_balance: eth,
+            token_balance: token
+          });
+        });
+    }
   }
-} 
+}
+
+module.exports = Etherscan;

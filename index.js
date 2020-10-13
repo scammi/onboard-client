@@ -3,11 +3,9 @@ var express = require('express');
 var session = require('express-session');
 var path = require('path');
 var mysql = require('mysql');
-var axios = require('axios')
+var Etherscan = require('./services/EtherscanService.js');
 
 import Onboard from './services/OnboardService.js';
-import etherscan_apiKey from './services/pk.js'
-// import Etherscan from './services/EtherscanService.js'
 
 var app = express();
 var connection = mysql.createConnection({
@@ -34,31 +32,7 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname + '/views/login.html'));
 });
 
-app.get('/user_home', async (req, res) => {
-  let user_authenticated = req.session.loggedin;
-  if (user_authenticated) {
-
-    let address = req.session.address;
-    axios({
-      method: 'get',
-      url: 'https://api-goerli.etherscan.io/api',
-      params: {
-        module: 'account',
-        action: 'balance',
-        address: address,
-        tag: 'latest',
-        apikey: 'DRYVU1NAAUFZNK9KEEAXVUWVF9RQGUMEZR'
-      }
-    }).then((response) => { 
-      console.log(response)
-      res.render('user_home', {
-        address: address,
-        eht_balance: response.data.result
-        // token_balance:
-      });
-    })
-  }
-});
+app.get('/user_home', Etherscan.get_balance);
 
 app.get('/create_user', (req, res) => {
   res.sendFile(path.join(__dirname + '/views/create_user.html'))

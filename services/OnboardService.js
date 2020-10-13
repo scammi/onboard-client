@@ -1,14 +1,13 @@
-
 import { App } from '@onboardmoney/sdk';
-import onboard_apiKey  from './pk.js';
+import onboard_apikey from './pk.js';
 
 export default class Onboard {
 
   constructor() {
     const network = 'goerli';
-    this.apikey = apiKey;
+    this.apikey = onboard_apikey;
     this.address = '0x711D96a560f72A048bDc64D87526249a82aB5D02';
-    this.onboardmoney = new App(this.onboard_apiKey, `https://${network}.onboard.money`);
+    this.onboardmoney = new App(this.apikey, `https://${network}.onboard.money`);
   }
 
   async get_balance() {
