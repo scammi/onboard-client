@@ -8,7 +8,7 @@
   <title>Onboard Client</title>
   <style>
     .login-form {
-      width: 320px;
+      width: 500px;
       margin: 0 auto;
       font-family: Tahoma, Geneva, sans-serif;
     }
@@ -47,11 +47,18 @@
 
 <body>
   <div class="login-form">
-    <h2>Create transaction</h1>
-    <p><%= address %></p>
-    <p><%= eth_balance %></p>
-    <p><%= token_balance %></p>
+    <div class="card my-4">
+      <div class="card-header">
+        Home
+      </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item"><%= address %></li>
+        <li class="list-group-item">ETH: <%= eth_balance %></li>
+        <li class="list-group-item">Tokens: <%= token_balance %></li>
+      </ul>
+    </div>
 
+    <h5>Create transaction</h5>
     <form id="create_transaction_form" action="create_transaction" method="POST">
       <input type="text" name="destination_address" placeholder="Destination address" required>
       <input type="number" min="0" step=".01" name="transaction_amount" placeholder="Amount" required>

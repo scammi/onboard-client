@@ -31,7 +31,7 @@ class Etherscan {
       });
 
       Promise.all([token_balance, get_eth_balance])
-        .then(function (results) {
+        .then((results) =>{
 
           const token_response = results[0].data.result[0];
           const token = (token_response)? token_response.value : 0;
@@ -43,8 +43,12 @@ class Etherscan {
             eth_balance: eth,
             token_balance: token
           });
-        });
-    }
+        })
+        .catch((error) => {
+          console.log(error);
+          res.end();
+        })
+    } 
   }
 }
 
