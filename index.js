@@ -78,15 +78,17 @@ app.post('/create_user', async (req, res) => {
 });
 
 app.post('/create_transaction', async (req, res, next) => {
-  let origin_addres = req.session.address;
+  let origin_address = req.session.address;
   let destination_address = req.body.destination_address;
   let amount = req.body.transaction_amount;
 
   let onboard = new Onboard();
-  let txReceipt = await onboard.create_transaction(origin_addres, destination_address, amount)
+  let txReceipt = await onboard.create_transaction(origin_address, destination_address, amount)
     .catch((err) => { next(err) })
-  console.log('transaction created')
-  res.end('{"success" : "Updated Successfully", "status" : 200}');
+    .then(() => {
+      console.log('transaction created')
+      res.end('{"success" : "Updated Successfully", "status" : 200}');
+    })
 })
 
 app.listen(3000);

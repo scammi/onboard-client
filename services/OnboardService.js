@@ -1,11 +1,11 @@
 import { App } from '@onboardmoney/sdk';
-import onboard_apikey from './pk.js';
+var key = require ('./pk.js');
 
 export default class Onboard {
 
   constructor() {
     const network = 'goerli';
-    this.apikey = onboard_apikey;
+    this.apikey = key.onboard;
     this.address = '0x711D96a560f72A048bDc64D87526249a82aB5D02';
     this.onboardmoney = new App(this.apikey, `https://${network}.onboard.money`);
   }
@@ -48,6 +48,7 @@ export default class Onboard {
     
     return txReceipt;
   }
+
   async evaluateBatch() {
     const userAddress = '0xdCD3a7aEf5994b731Cc90395894fD4475dD6AdFd'
     const batch = {

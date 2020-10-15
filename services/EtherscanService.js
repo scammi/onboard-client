@@ -1,5 +1,4 @@
-// import { etherscan_apikey } from './pk.js';
-
+var key = require ('./pk.js');
 var axios = require('axios');
 
 class Etherscan {
@@ -17,7 +16,7 @@ class Etherscan {
           action: 'tokentx',
           address: address,
           tag: 'latest',
-          apikey: 'DRYVU1NAAUFZNK9KEEAXVUWVF9RQGUMEZR'
+          apikey: key.etherscan
         }
       });
 
@@ -29,7 +28,7 @@ class Etherscan {
           action: 'balance',
           address: address,
           tag: 'latest',
-          apikey: 'DRYVU1NAAUFZNK9KEEAXVUWVF9RQGUMEZR'
+          apikey: key.etherscan
         }
       });
 
