@@ -8,19 +8,12 @@ var AuthController = require('./controllers/AuthController.js');
 import Onboard from './services/OnboardService.js';
 
 var app = express();
-var connection = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: 'toor',
-  database: 'nodelogin'
-});
 
 app.use(session({
   secret: 'secret',
   resave: true,
   saveUninitialized: true
 }));
-
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -40,21 +33,7 @@ app.get('/create_user', (req, res) => {
 
 app.post('/auth', AuthController.checkUser);
 
-app.post('/create_user', async (req, res) => {
-  let onboard = new Onboard();
-
-  let address = await onboard.createUser();
-  var username = req.body.username;
-  var password = req.body.password;
-  var params = [username, password, address];
-
-  if (username && password) {
-    connection.query('INSERT INTO accounts (username, password, address) VALUES (?, ?, ?)', params, (query_err, query_res, fields) => {
-      if (query_err) return console.error(query_err.message);
-      else res.redirect('/');
-    })
-  }
-});
+app.post('/create_user', AuthController.createUser);
 
 app.post('/create_transaction', async (req, res, next) => {
   let origin_address = req.session.address;

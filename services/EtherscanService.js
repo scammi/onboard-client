@@ -1,8 +1,7 @@
-var key = require ('./pk.js');
+var key = require('./pk.js');
 var axios = require('axios');
 
-class Etherscan 
-{
+class Etherscan {
   static async get_balance(req, res) {
     if (req.session.loggedin) {
       let address = req.session.address;
@@ -33,6 +32,7 @@ class Etherscan
 
       Promise.all([token_balance, get_eth_balance])
         .then(function (results) {
+
           const token = results[0].data.result[0].value;
           const eth = results[1].data.result;
 

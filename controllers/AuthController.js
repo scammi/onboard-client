@@ -1,23 +1,29 @@
+import Onboard from '../services/OnboardService.js';
 let bcrypt = require('bcrypt');
-let db = require('./DbController.js') 
+let db = require('./DbController.js')
 
-class AuthController
-{
-  static async checkUser(req, res) 
-  {
+class AuthController {
+  static async checkUser(req, res) {
     let username = req.body.username;
-    let password = req.body.password;
-    let query = 'SELECT * FROM accounts WHERE username = ? AND password = ?';
+    let PlaintextPassword = req.body.password;
+    let query = 'SELECT * FROM accounts WHERE username = ?';
     let connection = db.create_connection()
 
-    if (username && password) {
-      connection.query(query, [username, password], function (error, results, fields) {
+    if (username && PlaintextPassword) {
+      connection.query(query, [username], function (error, results, fields) {
         if (results.length > 0) {
-          req.session.loggedin = true;
-          req.session.username = username;
-          req.session.address = results[0].address;
-          res.redirect('/user_home');
 
+          console.log(results);
+          let hash = results[0].password;
+
+          bcrypt.compare(PlaintextPassword, hash, function (err, result) {
+            if (result == true) {
+              req.session.loggedin = true;
+              req.session.username = username;
+              req.session.address = results[0].address;
+              res.redirect('/user_home');
+            }
+          });
         } else {
           res.send('Incorrect Username and/or Password!');
         }
@@ -27,13 +33,27 @@ class AuthController
       res.end();
     }
 
-    // const match = await bcrypt.compare(password, user.passwordHash);
+  }
 
-    // if(match) {
-    //     //login
-    // }
+  static async createUser(req, res) {
+    let onboard = new Onboard();
 
-    // //...
+    let address = await onboard.createUser();
+    var username = req.body.username;
+    var password = req.body.password;
+
+    bcrypt.hash(password, 5, function (err, bcryptedPassword) {
+      let params = [username, bcryptedPassword, address];
+      let connection = db.create_connection();
+
+      if (username && password) {
+        connection.query('INSERT INTO accounts (username, password, address) VALUES (?, ?, ?)', params, (query_err, query_res, fields) => {
+          if (query_err) return console.error(query_err.message);
+          else res.redirect('/');
+        })
+      }
+    });
+
   }
 }
 
