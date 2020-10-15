@@ -33,7 +33,8 @@ class Etherscan {
       Promise.all([token_balance, get_eth_balance])
         .then(function (results) {
 
-          const token = results[0].data.result[0].value;
+          const token_response = results[0].data.result[0];
+          const token = (token_response)? token_response.value : 0;
           const eth = results[1].data.result;
 
           console.log("token:", token, eth);
