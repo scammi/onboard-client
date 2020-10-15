@@ -2,8 +2,8 @@ var bodyParser = require('body-parser');
 var express = require('express');
 var session = require('express-session');
 var path = require('path');
-var mysql = require('mysql');
 var Etherscan = require('./services/EtherscanService.js');
+var AuthController = require('./controllers/AuthController.js');
 
 import Onboard from './services/OnboardService.js';
 
@@ -38,28 +38,7 @@ app.get('/create_user', (req, res) => {
   res.sendFile(path.join(__dirname + '/views/create_user.html'))
 });
 
-app.post('/auth', (req, res) => {
-  let username = req.body.username;
-  let password = req.body.password;
-  let query = 'SELECT * FROM accounts WHERE username = ? AND password = ?';
-
-  if (username && password) {
-    connection.query(query, [username, password], function (error, results, fields) {
-      if (results.length > 0) {
-        req.session.loggedin = true;
-        req.session.username = username;
-        req.session.address = results[0].address;
-        res.redirect('/user_home');
-
-      } else {
-        res.send('Incorrect Username and/or Password!');
-      }
-    });
-  } else {
-    res.send('Please enter Username and Password!');
-    res.end();
-  }
-});
+app.post('/auth', AuthController.checkUser);
 
 app.post('/create_user', async (req, res) => {
   let onboard = new Onboard();

@@ -13,6 +13,7 @@
   "dependencies": {
     "@onboardmoney/sdk": "^0.2.1",
     "axios": "^0.20.0",
+    "bcrypt": "^5.0.0",
     "ejs": "^3.1.5",
     "esm": "^3.2.25",
     "express": "^4.17.1",

@@ -1,9 +1,8 @@
 var key = require ('./pk.js');
 var axios = require('axios');
 
-class Etherscan {
-
-
+class Etherscan 
+{
   static async get_balance(req, res) {
     if (req.session.loggedin) {
       let address = req.session.address;
