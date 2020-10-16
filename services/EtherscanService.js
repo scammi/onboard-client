@@ -40,8 +40,8 @@ class Etherscan {
           console.log("token:", token, eth);
           res.render('user_home', {
             address: address,
-            eth_balance: eth,
-            token_balance: token
+            eth_balance: eth/1000000000000000000,
+            token_balance: token/1000000000000000000
           });
         })
         .catch((error) => {
