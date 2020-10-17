@@ -49,7 +49,7 @@ class AuthController {
       if (username && password) {
         connection.query('INSERT INTO accounts (username, password, address) VALUES (?, ?, ?)', params, (query_err, query_res, fields) => {
           if (query_err) return console.error(query_err.message);
-          else res.redirect('/');
+          else res.end('{"success" : "Updated Successfully", "status" : 200}');
         })
       }
     });
