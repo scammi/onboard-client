@@ -64,24 +64,3 @@ export default class Onboard {
     const { success } = await this.onboardmoney.evaluateBatch(batch)
   }
 }
-
-
-// balance().catch((error) => {
-//   console.log(error);
-// });
-
-// createUser().catch((error) => {
-//   console.log(error);
-// });
-
-// get_policy().catch((error) => {
-//   console.log(error);
-// })
-
-// createTrx().catch((error) => {
-//   console.log(error);
-// })
-
-// evaluateBatch().catch((error) => {
-//   console.log(error);
-// })

@@ -3,6 +3,8 @@
 
 <head>
 	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+
 	<title>Create user</title>
 	<style>
 		.login-form {
@@ -10,7 +12,12 @@
 			margin: 0 auto;
 			font-family: Tahoma, Geneva, sans-serif;
 		}
-
+		
+    @media only screen and (max-width: 600px) {
+      .login-form {
+        width: 350px;
+      }
+    }
 		.login-form h1 {
 			text-align: center;
 			color: #4d4d4d;

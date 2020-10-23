@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 var bodyParser = require('body-parser');
 var express = require('express');
 var session = require('express-session');
