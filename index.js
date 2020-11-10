@@ -40,7 +40,7 @@ app.post('/create_user', AuthController.createUser);
 app.post('/create_transaction', async (req, res, next) => {
   let origin_address = req.session.address;
   let destination_address = req.body.destination_address;
-  let amount = req.body.transaction_amount;
+  let amount = req.body.transaction_amount * 10e17;
 
   let onboard = new Onboard();
   let txReceipt = await onboard.create_transaction(origin_address, destination_address, amount)

@@ -39,7 +39,7 @@ export default class Onboard {
         {
           from: user_address,
           to: destination_address,
-          value: value,
+          value: value
         },
       ],
     }

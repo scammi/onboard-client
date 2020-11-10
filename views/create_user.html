@@ -97,7 +97,7 @@
 			error: function (jqXHR, textStatus, errorThrown) {
 				PNotify.error({
 					title: 'Action fail',
-					text: 'Sorry but we could process your request, please try again later.'
+					text: `Sorry but we could process your request, ${textStatus}`
 				});
 			},
 			beforeSend: function () {
